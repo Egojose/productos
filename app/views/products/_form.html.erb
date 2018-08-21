@@ -6,7 +6,7 @@
           <%= f.number_field :price, class: "form-control input-lg", placeholder: "Precio" %>
         </div>
           <div class="field">
-            
+            <%= hidden_field_tag "product[category_id][]" , nil %>
             <% @categories.each do |category| %>
               <div class="row">
               <%= check_box_tag "product[category_id][]", category.id, @product.category_ids.include?(category.id) %>
