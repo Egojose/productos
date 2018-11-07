@@ -11,12 +11,13 @@ class ProductsController < ApplicationController
 
   def create
     categories = params[:product][:category_id].map(&:to_i)
+    categories.delete(0)
     @product = Product.new(product_params)
     categories.each do |category|
       category = Category.find(category)
       @product.categories << category
     end
-
+    
     if @product.save
       redirect_to products_path
     else
@@ -25,7 +26,7 @@ class ProductsController < ApplicationController
   end
 
   def update
-
+    @product = Product.find(params[:id])
     params[:product][:category_id] ||= []
     @product.category_ids=params[:product][:category_id]
     if @product.update_attributes(product_params)
@@ -36,10 +37,12 @@ class ProductsController < ApplicationController
   end
 
   def edit
+    @product = Product.find(params[:id])
     @categories = Category.all
   end
 
   def destroy
+    @product = Product.find(params[:id])
     @product.destroy
     redirect_to products_path
   end
